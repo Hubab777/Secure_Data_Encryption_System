@@ -24,6 +24,9 @@ if "failure_attempt" not in st.session_state:
     
 if "lockout_time" not in st.session_state:
     st.session_state.lockout_time = 0
+
+if "page" not in st.session_state:
+    st.session_state.page = "Home"
     
 # If Data is Loading
 
@@ -62,9 +65,10 @@ stored_data = load_data()
 # Navigation Bar
 st.title("🔐 Secure Data Encryption System Using Streamlit ✨")
 menu = ["Home", "Register", "Login", "Store Data", "Retrieve Data"]
-choice = st.sidebar.selectbox("Navigation 🛣", menu)
+page_from_sidebar = st.sidebar.selectbox("Navigation 🛣", menu)
+st.session_state.page = page_from_sidebar
 
-if choice == "Home":
+if st.session_state.page == "Home":
     st.subheader("Welcome to 🔐 Secure Data Encryption System Using Streamlit ✨")
     st.markdown('''📬 Develop a Streamlit-based secure data storage and retrieval system where:
 
@@ -73,10 +77,17 @@ if choice == "Home":
 \n▶ Multiple failed attempts result in a forced reauthorization (login page).
 \n▶ The system operates entirely in memory without external databases.
 ''')
+ col1, col2 = st.columns(2)
+    with col1:
+        if st.button("📝 Register Now"):
+            st.session_state.page = "Register"
+    with col2:
+        if st.button("🔐 Login Now"):
+            st.session_state.page = "Login"
     
 # User Registration
 
-elif choice == "Register":
+elif st.session_state.page == "Register":
     st.subheader("✏ Register a New User.")
     username = st.text_input("Choose Username")
     password = st.text_input("Choose Password", type = "password")
@@ -95,7 +106,7 @@ elif choice == "Register":
     else:
         st.error("Both fields are reuired. 🔴")
         
-elif choice == "Login":
+elif st.session_state.page == "Login":
     st.subheader("User Login 🔑")
     
     if time.time() < st.session_state.lockout_time:
@@ -123,7 +134,7 @@ elif choice == "Login":
                 st.stop()
                 
 # Data Storing section
-elif choice == "Store Data":
+elif st.session_state.page == "Store Data":
     if not st.session_state.authenticated_user:
         st.warning("⏬ Please Login first!")
     else:
@@ -141,7 +152,7 @@ elif choice == "Store Data":
                 st.error("All fields are required to fill 🟡")
                 
 #Data retrieval Section
-elif choice == "Retrieve Data":
+elif st.session_state.page == "Retrieve Data":
     if not st.session_state.authenticated_user:
         st.warning("⏬ Please Login first!")
     else:
