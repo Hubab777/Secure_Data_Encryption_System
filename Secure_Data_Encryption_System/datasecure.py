@@ -77,7 +77,7 @@ if st.session_state.page == "Home":
 \n▶ Multiple failed attempts result in a forced reauthorization (login page).
 \n▶ The system operates entirely in memory without external databases.
 ''')
- col1, col2 = st.columns(2)
+    col1, col2 = st.columns(2)
     with col1:
         if st.button("📝 Register Now"):
             st.session_state.page = "Register"
