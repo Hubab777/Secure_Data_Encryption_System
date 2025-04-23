@@ -81,9 +81,11 @@ if st.session_state.page == "Home":
     with col1:
         if st.button("📝 Register Now"):
             st.session_state.page = "Register"
+            st.experimental_rerun()
     with col2:
         if st.button("🔐 Login Now"):
             st.session_state.page = "Login"
+            st.experimental_rerun()
     
 # User Registration
 
